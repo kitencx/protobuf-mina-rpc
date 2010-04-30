@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- appender for alerts -->
+    <appender name="logAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="/cv/logs/localhost_alerts_${machineName}.txt"/>
+        <param name="datePattern" value="'-'yyyy-MM-dd'.txt'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!--  
+                Don't specify anything else in the pattern.
+             -->
+            <param name="ConversionPattern" value="%m %n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+        </filter>
+    </appender>
+
+    <appender name="accessAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="/cv/logs/localhost_usage_${machineName}.txt"/>
+        <param name="datePattern" value="'-'yyyy-MM-dd'.txt'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!--  
+                Don't specify anything else in the pattern.
+             -->
+            <param name="ConversionPattern" value="%m %n"/>
+        </layout>
+       <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+        </filter>
+    </appender>
+
+    
+
+    <appender name="nullAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="/dev/null"/>
+        <layout class="org.apache.log4j.SimpleLayout"/>
+    </appender>
+
+    <!--Appender for Monitoring-->
+    <appender name="monitoringAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="/cv/logs/MBeanMonitoring_${machineName}.txt"/>
+        <param name="datePattern" value="'-'yyyy-MM-dd'.txt'"/>
+            <!--  
+                Don't specify anything else in the pattern.
+             -->
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%m %n"/>
+        </layout>
+       <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO"/>
+        </filter>
+    </appender>
+
+    <logger name="org.apache.commons.digester.Digester.sax">
+        <level value="info"/>
+    </logger>
+
+    <logger name="org.apache.commons.digester.Digester">
+        <level value="info"/>
+    </logger>
+
+    <logger name="org.apache.struts">
+        <level value="info"/>
+    </logger>
+
+    <logger name="EFLogger">
+        <level value="debug"/>
+        <appender-ref ref="logAppender"/>
+    </logger>
+
+    <logger name="EFAccessLogger">
+        <level value="debug"/>
+        <appender-ref ref="accessAppender"/>
+    </logger>
+
+    <!-- Monitoring Logger -->
+    <logger name="EFMonitor">
+        <level value="info"/>
+	<appender-ref ref="monitoringAppender"/>
+    </logger>
+
+    <!-- Setup root loggers -->
+
+    <root>
+        <priority value="warn" />
+        <appender-ref ref="logAppender"/> 
+    </root>
+
+</log4j:configuration> 
+

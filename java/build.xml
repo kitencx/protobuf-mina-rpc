@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="protobuf-mina-rpc" default="package">
+	<!--taskdef resource="checkstyletask.properties"/ -->
+
+	<target name="setprops">
+		<echo message="----------- ${ant.project.name}  ------------" />
+		<property file="build.properties" />
+
+		<property name="debug" value="true" />
+		<property name="deprecation" value="off" />
+		<property name="encoding" value="utf-8" />
+		<property name="build.compiler" value="modern" />
+		<property name="src.dir" value="src" />
+
+		<property name="build.dest" value="classes" />
+		<property name="build.jaroutputdir" value="dist" />
+
+		<!-- classpath needed for both building the project and running the project -->
+		<path id="buildrun.classpath">
+			<fileset dir="lib">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+		<path id="buildtime.classpath">
+			<path refid="buildrun.classpath" />
+		</path>
+		<!-- classpath needed for running the project -->
+		<path id="runtime.classpath">
+			<path refid="buildrun.classpath" />
+			<pathelement location="${build.dest}" />
+		</path>
+	</target>
+
+
+	<target name="setup" depends="setprops">
+		<mkdir dir="${build.dest}" />
+		<mkdir dir="${build.jaroutputdir}" />
+	</target>
+
+	<target name="compile" depends="setup">
+		<mkdir dir="${build.dest}" />
+		<javac srcdir="${src.dir}" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" encoding="${encoding}">
+			<classpath refid="buildtime.classpath" />
+		</javac>
+	</target>
+
+
+	<target name="package" depends="compile">
+		<jar jarfile="${build.jaroutputdir}/${ant.project.name}.jar" basedir="${build.dest}">
+		</jar>
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Clears the build directory                                          -->
+	<!-- =================================================================== -->
+	<target name="clean" depends="setprops">
+		<delete dir="${build.dest}" />
+		<delete dir="${build.jaroutputdir}" />
+	</target>
+
+	<target name="demo" depends="compile">
+		<java classname="com.googlecode.protobuf.minarpc.example.Main" fork="true">
+			<classpath refid="runtime.classpath" />
+		</java>
+	</target>
+
+
+</project>
+
+
