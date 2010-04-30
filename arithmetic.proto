@@ -1,0 +1,16 @@
+package com.googlecode.protobuf.minarpc.services;
+
+message OpResponse {
+  required int32  result = 1;
+}
+
+message OpRequest {
+  // either '+' or '*'
+  required string operator = 1;
+  repeated int32 operands  = 2;
+}
+
+
+service ArithmeticService {
+  rpc performOperation(OpRequest) returns (OpResponse);
+}
