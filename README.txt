@@ -17,13 +17,14 @@ At Java side, Apache MINA is used to run a non-blocking socket server to serve p
 
 BUILD and INSTALL:
 
-After checking out the source
-Java :  
+After checking out the source:
+
+Java (make sure you have JDK 1.6 installed):  
     cd java 
     ant  (this will build dist/protobuf-mina-rpc.jar)
     ant demo (this will start a simple arithmetic service server)    
 
-Python:
+Python (make sure you've installed Google Protocol Buffer Python library):
     cd python
     python arithmetic_client.py  -n <num>
     (<num> is an integer,  this will first build a list [1,2,3,...,num] at the Python side and then   invoke the Java sides arithmetic service to compute the sum of this list, and finally print out the result that comes back. As an example: 
